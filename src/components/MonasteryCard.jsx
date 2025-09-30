@@ -1,16 +1,14 @@
-// src/components/MonasteryCard.jsx
 import React, { useState } from "react";
 import { Book, Volume2, MapPin } from "lucide-react";
 
 export default function MonasteryCard({ monastery }) {
-  const [tab, setTab] = useState("history"); // local state
-  const [viewing, setViewing] = useState("inside"); // inside/outside panorama toggle
+  const [tab, setTab] = useState("history");
+  const [viewing, setViewing] = useState("inside");
 
   return (
     <article className="rounded-2xl shadow-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-amber-200/50 transition-all hover:shadow-lg hover:-translate-y-0.5">
       {/* 360 Viewer */}
-      <div className="w-full h-64 md:h-72 relative bg-gray-900/5">
-        {/* Panorama toggle */}
+      <div className="w-full h-80 relative bg-gray-900/5">
         <div className="absolute top-2 right-2 flex gap-2 z-10">
           {["inside", "outside"].map((v) => (
             <button
@@ -27,12 +25,13 @@ export default function MonasteryCard({ monastery }) {
           ))}
         </div>
 
-        {monastery.panoramas && monastery.panoramas[viewing] ? (
+        {monastery.panoramas?.[viewing] ? (
           <iframe
             title={`${monastery.name} 360 ${viewing}`}
             src={monastery.panoramas[viewing]}
             className="w-full h-full border-0"
             allowFullScreen
+            loading="lazy"
           />
         ) : (
           <img
@@ -109,18 +108,13 @@ export default function MonasteryCard({ monastery }) {
             {tab === "archives" && (
               <div className="grid grid-cols-2 gap-3">
                 {(monastery.archives || []).map((a) => (
-                  <div
-                    key={a.id}
-                    className="rounded-xl overflow-hidden border border-amber-200/50 shadow-sm"
-                  >
+                  <div key={a.id} className="rounded-xl overflow-hidden border border-amber-200/50 shadow-sm">
                     <img src={a.image} alt={a.title} className="w-full h-28 object-cover" />
                     <div className="p-2 text-sm font-medium text-orange-800">{a.title}</div>
                   </div>
                 ))}
                 {(!monastery.archives || monastery.archives.length === 0) && (
-                  <div className="text-gray-500">
-                    कोई पाण्डुलिपि उपलब्ध नहीं है - No manuscripts available
-                  </div>
+                  <div className="text-gray-500">कोई पाण्डुलिपि उपलब्ध नहीं है - No manuscripts available</div>
                 )}
               </div>
             )}
