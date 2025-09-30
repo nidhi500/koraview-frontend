@@ -12,21 +12,33 @@ const Login = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+  // 🔹 Temporary Hardcoded Admin Login
+  if (email === "admin@sikkim360.com" && password === "admin1234") {
+    // fake login
+    login({ user: { email, role: "admin" }, token: "fake-token" });
+    navigate("/AdminDashboard"); 
+    return;
+  }
+
+  // 🔹 Else, try actual backend login
+  const res = await fetch(
+    `${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/auth/login`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    }
+  );
 
   const data = await res.json();
   if (res.ok) {
     login(data);
-    // 🔹 Always redirect to AdminDashboard
     navigate("/AdminDashboard");
   } else {
-    alert(data.message);
+    alert(data.message || "Invalid credentials");
   }
 };
+
 
 
   return (
