@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+const API_URL = process.env.REACT_APP_API_URL 
 
 
 // Fetch all monasteries
@@ -11,3 +11,5 @@ export const approveMonastery = (id, token) =>
   axios
     .put(`${API_URL}/monasteries/${id}/approve`, {}, { headers: { Authorization: `Bearer ${token}` } })
     .then(res => res.data);
+
+    
