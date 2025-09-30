@@ -27,7 +27,7 @@ function App() {
 <Route path="/tours" element={<Tours />} />
 
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/AdminDashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </AuthProvider>
