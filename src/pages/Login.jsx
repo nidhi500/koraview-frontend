@@ -10,22 +10,24 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+  const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5000/api"}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
 
-    const data = await res.json();
-    if (res.ok) {
-      login(data);
-      navigate(data.user.role === "admin" ? "/admin" : "/");
-    } else {
-      alert(data.message);
-    }
-  };
+  const data = await res.json();
+  if (res.ok) {
+    login(data);
+    // 🔹 Always redirect to AdminDashboard
+    navigate("/AdminDashboard");
+  } else {
+    alert(data.message);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row overflow-hidden">
